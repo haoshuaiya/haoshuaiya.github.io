@@ -1,0 +1,718 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="长时间未曾动笔至今已忘了如何组织语言，故注册此博客园帐号。一来，总结自己平时编程中遇到的“坑”；二来，记录下自己的编程生涯，以待来日回顾。本篇总结的来源是近期自己所负责的一个云平台项目。这是第一篇，关于布局。  传统的布局方式一般都是盒模型，并依赖于display、position或者float。然而position具有不能自适应内部高度的缺点，需要固定的容器高度；float存在父元素塌陷，需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页布局总结">
+<meta property="og:url" content="http://www.wijayleo.cn/2016/05/19/网页布局总结/index.html">
+<meta property="og:site_name" content="Leo">
+<meta property="og:description" content="长时间未曾动笔至今已忘了如何组织语言，故注册此博客园帐号。一来，总结自己平时编程中遇到的“坑”；二来，记录下自己的编程生涯，以待来日回顾。本篇总结的来源是近期自己所负责的一个云平台项目。这是第一篇，关于布局。  传统的布局方式一般都是盒模型，并依赖于display、position或者float。然而position具有不能自适应内部高度的缺点，需要固定的容器高度；float存在父元素塌陷，需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-24T02:09:28.173Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页布局总结">
+<meta name="twitter:description" content="长时间未曾动笔至今已忘了如何组织语言，故注册此博客园帐号。一来，总结自己平时编程中遇到的“坑”；二来，记录下自己的编程生涯，以待来日回顾。本篇总结的来源是近期自己所负责的一个云平台项目。这是第一篇，关于布局。  传统的布局方式一般都是盒模型，并依赖于display、position或者float。然而position具有不能自适应内部高度的缺点，需要固定的容器高度；float存在父元素塌陷，需要">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wijayleo.cn/2016/05/19/网页布局总结/">
+
+
+
+
+
+  <title> 网页布局总结 | Leo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0b67b3768c1d05a8c8511fbd79ffc5e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Leo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wijayleo.cn/2016/05/19/网页布局总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网页布局总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-19T21:39:58+08:00">
+                2016-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2016/05/19/网页布局总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>长时间未曾动笔至今已忘了如何组织语言，故注册此博客园帐号。一来，总结自己平时编程中遇到的“坑”；二来，记录下自己的编程生涯，以待来日回顾。本篇总结的来源是近期自己所负责的一个云平台项目。这是第一篇，关于布局。</p>
+</blockquote>
+<p>传统的布局方式一般都是盒模型，并依赖于display、position或者float。然而position具有不能自适应内部高度的缺点，需要固定的容器高度；float存在父元素塌陷，需要用清除浮动解决；同时，对于某些布局方式也较为麻烦，例如垂直居中。如果使用传统的盒模型方法的话，其代码一般为：　</p>
+<p> <code>.mid{position:absolute;left:50%;top:50%;margin-top:-1/2*Height;margin-left:-1/2*Width;}</code><br> 本种方法不易于维护，同时需要固定父元素高度，所以，为了解决这个问题，引入了flexbox（弹性布局）。在 .mid 的父元素上使用flex定位，可以轻松解决这个问题。当然，为了保证浏览器兼容性，需要加上浏览器私有前缀。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wrap&#123;display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;-webkit-box-align: center;-webkit-align-items: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-webkit-justify-content: center;-ms-flex-pack: center;justify-content: center;&#125;</span><br></pre></td></tr></table></figure>
+<p>不仅如此，在写顶部的banner时候可以令父元素如下：</p>
+<p><code>justify-content:space-between;</code></p>
+<p>让网站logo，选项框以及登陆按钮布局较为美观。不过在使用了flex布局后，float，clear，vertical-align属性都将失效。</p>
+<p>其他一些flex属性：</p>
+<ul>
+<li>1、flex-direction：定义项目的排列方向。</li>
+<li>2、flex-wrap：定义主轴上的元素是否可以换行。</li>
+<li>3、align-items：定义项目在垂直于主轴的方向上如何对齐。</li>
+<li>4、align-content：定义多根主轴的对齐。以上属性都是写在父元素内的，</li>
+</ul>
+<p>而子元素中也有一些flex属性：</p>
+<ul>
+<li>1、order：定义项目的排列顺序，越小越靠前。</li>
+<li>2、flex-grow：定义项目的放大系数，如果为0，则不放大。</li>
+<li>3、flex-shrink：与flex-grow相反。</li>
+<li>4、flex-basis：设置项目在主轴上占据的空间。</li>
+<li>5、align-self：为特定子元素提供定制的对齐，将会覆盖父元素的align-items属性。</li>
+</ul>
+<p>其他一些布局心得：</p>
+<blockquote>
+<p>1、不要随意使用float以及position布局，避免引起高度塌陷。</p>
+</blockquote>
+<blockquote>
+<p>2、书写样式时最好使用类不要使用ID，以便于代码的重用。</p>
+</blockquote>
+<blockquote>
+<p>3、布局前先确定好整体的页面结构以及使用的布局方法，避免中后期发现布局方法不合适，导致整个项目推倒重来。</p>
+</blockquote>
+<blockquote>
+<p>4、将footer固定到页面底部：不管是body内元素堆叠高度和是小于浏览器高度还是高于浏览器高度，只需要将wrap内的其他元素与footer元素放在两个不同的div内，第一个div的高度设为100%，margin-bottom设为footer的高度即可。</p>
+</blockquote>
+<p>　　<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;flex布局&lt;/title&gt;</span><br><span class="line">   &lt;style&gt;</span><br><span class="line">        *&#123;margin: 0;padding: 0;&#125;</span><br><span class="line">       html,body&#123;width: 100%;height: 100%;&#125;</span><br><span class="line">      .main,.wrap&#123;width: 100%;height: 100%;&#125;</span><br><span class="line">      .main&#123;margin-bottom: -100px;&#125;</span><br><span class="line">      .footer&#123;width: 100%;height: 100px;background-color: #000;&#125;</span><br><span class="line">   &lt;/style&gt; </span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;link rel=&quot;stylesheet&quot; href=&quot;./layout.css&quot;&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;div class=&quot;wrap&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;main&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;header&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div class=&quot;footer&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>　　粗浅之言，请勿见笑。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/29/avalon分页组件/" rel="prev" title="avalon分页组件【基于1.4.7版本】">
+                avalon分页组件【基于1.4.7版本】 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Leo">
+          <p class="site-author-name" itemprop="name">Leo</p>
+           
+              <p class="site-description motion-element" itemprop="description">Know the loom. Be the stone.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "68c6e70861ba4f909cd7b95987795781",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="课立方,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="由于功能的不断丰富和复杂，目前项目也在不断变大，当前前端技术栈存在的缺点也慢慢暴露出来。为了更好地实现更复杂的业务，更丰富的交互，尝试对新的前端技术栈进行调研和实践。在我个人的理解，前端最终要实现的效果是稳定，高性能，简洁，一致，便于维护的页面。  目前前端代码中，存在的一些问题如下:  引入依赖较为随意，容易发生重复引入或者引入无用依赖。 代码结构不够清晰，存在较多全局变量，较多DOM操作和数">
+<meta name="keywords" content="课立方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web及server端vue技术栈调研">
+<meta property="og:url" content="http://www.wijayleo.cn/2017/09/05/web及server端vue技术栈调研/index.html">
+<meta property="og:site_name" content="Leo">
+<meta property="og:description" content="由于功能的不断丰富和复杂，目前项目也在不断变大，当前前端技术栈存在的缺点也慢慢暴露出来。为了更好地实现更复杂的业务，更丰富的交互，尝试对新的前端技术栈进行调研和实践。在我个人的理解，前端最终要实现的效果是稳定，高性能，简洁，一致，便于维护的页面。  目前前端代码中，存在的一些问题如下:  引入依赖较为随意，容易发生重复引入或者引入无用依赖。 代码结构不够清晰，存在较多全局变量，较多DOM操作和数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://klfupload.klfonline.com/2017/09/05/11/43/16/1131/o_1bp825icnimodmr1q8v1p2o1e97.png">
+<meta property="og:updated_time" content="2019-07-24T02:09:28.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web及server端vue技术栈调研">
+<meta name="twitter:description" content="由于功能的不断丰富和复杂，目前项目也在不断变大，当前前端技术栈存在的缺点也慢慢暴露出来。为了更好地实现更复杂的业务，更丰富的交互，尝试对新的前端技术栈进行调研和实践。在我个人的理解，前端最终要实现的效果是稳定，高性能，简洁，一致，便于维护的页面。  目前前端代码中，存在的一些问题如下:  引入依赖较为随意，容易发生重复引入或者引入无用依赖。 代码结构不够清晰，存在较多全局变量，较多DOM操作和数">
+<meta name="twitter:image" content="http://klfupload.klfonline.com/2017/09/05/11/43/16/1131/o_1bp825icnimodmr1q8v1p2o1e97.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wijayleo.cn/2017/09/05/web及server端vue技术栈调研/">
+
+
+
+
+
+  <title> web及server端vue技术栈调研 | Leo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0b67b3768c1d05a8c8511fbd79ffc5e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Leo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wijayleo.cn/2017/09/05/web及server端vue技术栈调研/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                web及server端vue技术栈调研
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-05T09:22:54+08:00">
+                2017-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/09/05/web及server端vue技术栈调研/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>由于功能的不断丰富和复杂，目前项目也在不断变大，当前前端技术栈存在的缺点也慢慢暴露出来。为了更好地实现更复杂的业务，更丰富的交互，尝试对新的前端技术栈进行调研和实践。在我个人的理解，前端最终要实现的效果是稳定，高性能，简洁，一致，便于维护的页面。</p>
+</blockquote>
+<p>目前前端代码中，存在的一些问题如下:</p>
+<ul>
+<li>引入依赖较为随意，容易发生重复引入或者引入无用依赖。</li>
+<li>代码结构不够清晰，存在较多全局变量，较多DOM操作和数据驱动杂糅，重复代码较多，代码复用率低。</li>
+<li>avalon框架本身存在一些bug和不足，如深层数据嵌套时，无法监听到属性的变化，组件编写繁琐晦涩，列表渲染有几率出错。</li>
+<li>简单地通过hash值改变页面显示，没有页面的加载和卸载，在引入第三方框架时，容易发生不可预测的错误。</li>
+<li>行内样式过多，样式文件冗余较多，css中!important使用过多。</li>
+<li>交互反馈单一，基本都是modal框，中断用户操作。</li>
+</ul>
+<h3 id="关于VUE"><a href="#关于VUE" class="headerlink" title="关于VUE"></a>关于VUE</h3><p><a href="https://cn.vuejs.org/" target="_blank" rel="noopener">Vue</a>是一套构建用户界面的渐进式MVVM框架(主张较少，自由度较高)，核心库专注于试图层的实现，兼容IE9(ES5)及以上浏览器。目前的活跃度如下表(截止2017/09/05):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">#</th>
+<th style="text-align:center">数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">GITHUB Star</td>
+<td style="text-align:center">65625</td>
+</tr>
+<tr>
+<td style="text-align:center">GITHUB搜索结果</td>
+<td style="text-align:center">60651</td>
+</tr>
+<tr>
+<td style="text-align:center">NPM Packages</td>
+<td style="text-align:center">6144</td>
+</tr>
+<tr>
+<td style="text-align:center">NPM Downloads</td>
+<td style="text-align:center">656972(Last Month)</td>
+</tr>
+<tr>
+<td style="text-align:center">CNPM Downloads</td>
+<td style="text-align:center">132245(Last Month)</td>
+</tr>
+</tbody>
+</table>
+<p>该框架主要有以下几个优点:</p>
+<ul>
+<li>框架功能稳定且完备，使用Virtual Dom技术，提高渲染性能。</li>
+<li>入门及上手简单，中文文档完善。</li>
+<li>社区活跃，轮子众多(有较多大厂出品的轮子，性能值得信赖)。</li>
+<li>官方自带构建脚手架<a href="https://github.com/vuejs/vue-cli" target="_blank" rel="noopener">vue-cli</a>，一键生成基础前端代码，支持多种模版及自定义模版，同时，还可以在Chrome浏览器上安装调试工具<a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a>,方便跟踪页面数据流。</li>
+<li>对于SPA页面来说，异步加载静态资源，同时引入文件使用ES6的<code>import/export</code>或者webpack自带的<code>require</code>语法，在打包时能够抽取公共代码(可配置),减少静态资源的体积。</li>
+</ul>
+<p>项目中使用Vue生态系统可以预见或已经实践证明为项目带来的提升有:</p>
+<ul>
+<li>浏览体验，SPA页面，页面没有重载过程，提供新的交互形式，减少用户操作中断时间和次数。</li>
+<li>基础的、复用较多的代码写入组件，提供统一的页面体验，减少代码冗余。</li>
+<li>使用npm进行依赖管理，便于进行依赖及其版本的管理。</li>
+<li>更加透明和清晰的数据管理，减少不可预测的错误。</li>
+<li>模块化更加清晰，维护更加方便。</li>
+</ul>
+<h3 id="初步前端方案"><a href="#初步前端方案" class="headerlink" title="初步前端方案"></a>初步前端方案</h3><p><img src="http://klfupload.klfonline.com/2017/09/05/11/43/16/1131/o_1bp825icnimodmr1q8v1p2o1e97.png" alt="初步架构方案"></p>
+<p>如上图所示，业务实现的核心库使用<a href="https://router.vuejs.org/zh-cn/" target="_blank" rel="noopener">Vue-router</a>进行路由控制，使用<a href="https://github.com/mzabriskie/axios" target="_blank" rel="noopener">Axios</a>进行http请求，使用<a href="https://vuex.vuejs.org/zh-cn/" target="_blank" rel="noopener">Vuex</a>或者在app下面声明属性进行状态管理，其他库文件基本与之前一致，引入<a href="https://github.com/node-modules/utility" target="_blank" rel="noopener">utility</a>提供常用方法(md5,sha1,decode,encode,dateformat等等)。  </p>
+<p>在样式实现上，使用<a href="http://element.eleme.io/#/zh-CN" target="_blank" rel="noopener">Element-ui</a>作为新的UI库，不再使用bootstrap。Element-ui是饿了么出品的网站快速成型工具，提供丰富的组件，同时还为产品提供axure components，为设计提供sketch template，方便快速高效开发。  </p>
+<p>自定义样式上，使用SASS+AutoPrefixer进行实现。利用SASS好处主要有:提取公共参数，保证页面表现统一;自动嵌套，省去书写css时对权重的考量，方便后期进行维护和开发。使用Autoprefixer进行处理，自动解析css文件，并添加浏览器前缀到css规则里，其添加依据来源于<a href="http://caniuse.com/" target="_blank" rel="noopener">CanIUse</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/课立方/" rel="tag"># 课立方</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/18/server-mobile组件文档/" rel="next" title="server-mobile组件文档">
+                <i class="fa fa-chevron-left"></i> server-mobile组件文档
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Leo">
+          <p class="site-author-name" itemprop="name">Leo</p>
+           
+              <p class="site-description motion-element" itemprop="description">Know the loom. Be the stone.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于VUE"><span class="nav-number">1.</span> <span class="nav-text">关于VUE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初步前端方案"><span class="nav-number">2.</span> <span class="nav-text">初步前端方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "68c6e70861ba4f909cd7b95987795781",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

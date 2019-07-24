@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="avalon,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="avalon分页组件 (1.4.x版本)随着avalon2的推出，avalon1的官网已经不再维护了，现在似乎是找不到avalon 1.4版本的官方文档了，所以本文章所有的内容均不保证正确性，只能保证在同样的前置条件下可以实现相同的功能，具体代码见github内容。   本文UI基于bootstrap创建，使用的avalon版本为avalon 1.4.7。具体代码如下： template代码为下面">
+<meta name="keywords" content="avalon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="avalon分页组件【基于1.4.7版本】">
+<meta property="og:url" content="http://www.wijayleo.cn/2017/03/29/avalon分页组件/index.html">
+<meta property="og:site_name" content="Leo">
+<meta property="og:description" content="avalon分页组件 (1.4.x版本)随着avalon2的推出，avalon1的官网已经不再维护了，现在似乎是找不到avalon 1.4版本的官方文档了，所以本文章所有的内容均不保证正确性，只能保证在同样的前置条件下可以实现相同的功能，具体代码见github内容。   本文UI基于bootstrap创建，使用的avalon版本为avalon 1.4.7。具体代码如下： template代码为下面">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-24T02:09:28.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="avalon分页组件【基于1.4.7版本】">
+<meta name="twitter:description" content="avalon分页组件 (1.4.x版本)随着avalon2的推出，avalon1的官网已经不再维护了，现在似乎是找不到avalon 1.4版本的官方文档了，所以本文章所有的内容均不保证正确性，只能保证在同样的前置条件下可以实现相同的功能，具体代码见github内容。   本文UI基于bootstrap创建，使用的avalon版本为avalon 1.4.7。具体代码如下： template代码为下面">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wijayleo.cn/2017/03/29/avalon分页组件/">
+
+
+
+
+
+  <title> avalon分页组件【基于1.4.7版本】 | Leo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0b67b3768c1d05a8c8511fbd79ffc5e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Leo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wijayleo.cn/2017/03/29/avalon分页组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                avalon分页组件【基于1.4.7版本】
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T13:29:11+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/03/29/avalon分页组件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="avalon分页组件-1-4-x版本"><a href="#avalon分页组件-1-4-x版本" class="headerlink" title="avalon分页组件 (1.4.x版本)"></a>avalon分页组件 (1.4.x版本)</h1><p>随着avalon2的推出，avalon1的官网已经不再维护了，现在似乎是找不到avalon 1.4版本的官方文档了，所以本文章所有的内容均不保证正确性，只能保证在同样的前置条件下可以实现相同的功能，具体代码见<a href="https://github.com/haoshuaiya/avalon-pager" target="_blank" rel="noopener">github</a>内容。  </p>
+<p>本文UI基于bootstrap创建，使用的avalon版本为<a href="https://github.com/RubyLouvre/avalon/tree/1.4" target="_blank" rel="noopener">avalon 1.4.7</a>。具体代码如下：</p>
+<p>template代码为下面代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    .current &#123;</span><br><span class="line">        background-color: #2d97de !important;</span><br><span class="line">        color: #fff !important;</span><br><span class="line">    &#125;</span><br><span class="line">   &lt;/style&gt;</span><br><span class="line">&lt;div ms-controller=&quot;page&quot; ms-widget=&quot;pager,testtest,$opts&quot;&gt;</span><br><span class="line">    &lt;ul class=&quot;pagination&quot; ms-if=&quot;pageCount&gt;1&quot;&gt;</span><br><span class="line">        &lt;li ms-click=&quot;homePage()&quot; ms-class=&quot;&#123;&#123;currentPage==1?&apos;disabled&apos;:&apos;&apos;&#125;&#125;&quot;&gt;&lt;a href=&quot;##&quot;&gt;首页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li ms-click=&quot;lastPage()&quot; ms-class=&quot;&#123;&#123;currentPage==1?&apos;disabled&apos;:&apos;&apos;&#125;&#125;&quot;&gt;&lt;a href=&quot;##&quot;&gt;上一页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;##&quot; ms-if=&quot;firstDotShow&quot;&gt;...&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li ms-repeat=&quot;showArr&quot; ms-click=&quot;goTomodel(el)&quot;&gt;&lt;a href=&quot;##&quot; ms-text=&quot;el&quot; ms-class=&quot;&#123;&#123;el==currentPage?&apos;current&apos;:&apos;&apos;&#125;&#125;&quot;&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;##&quot; ms-if=&quot;lastDotShow&quot;&gt;...&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li ms-click=&quot;nextPage()&quot; ms-class=&quot;&#123;&#123;currentPage==pageCount?&apos;disabled&apos;:&apos;&apos;&#125;&#125;&quot;&gt;&lt;a href=&quot;##&quot;&gt;下一页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li ms-click=&quot;endPage()&quot; ms-class=&quot;&#123;&#123;currentPage==pageCount?&apos;disabled&apos;:&apos;&apos;&#125;&#125;&quot;&gt;&lt;a href=&quot;##&quot;&gt;尾页&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如上面代码，其中<code>ms-controller</code>的vmodel名是自定义的，且不能重复。引用分页组件的方法为：<code>ms-widget=&quot;pager,testtest,$opts&quot;</code>,其中，<code>pager</code>为组件名，<code>testtest</code>为新生成的vmodel名，且不能够与已经存在的vmodel重复，因为实际生成了这些vmodel了（avalon中ms-controller的值是不能重复的）。<code>$opts</code>为传入的参数值，可以传入用户自定义的参数值，如在本例中，自定义的值为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$opts: &#123;</span><br><span class="line">    pageCount: 1, </span><br><span class="line">    cb: avalon.noop</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>表示传入组件的总页数为1，回调函数为空函数，在初始化(avalon.ready)的时候再书写回调函数。</p>
+<p>组件的书写代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">//使用avalon自带的amd加载器，加载组件依赖avalon</span><br><span class="line">define([&quot;avalon&quot;],function (avalon) &#123;</span><br><span class="line">    //组件名为pager，这就是为什么ms-widget里面第一个参数是pager</span><br><span class="line">    avalon.ui[&quot;pager&quot;] =function (element, data, vmodels) &#123;</span><br><span class="line">        var innerHTML = element.innerHTML;</span><br><span class="line">        //由于innerHTML要依赖许多widget后来添加的新属性，这时如果被扫描肯定报“不存在”错误</span><br><span class="line">        //因此先将它清空</span><br><span class="line">        avalon.clearHTML(element);</span><br><span class="line">        //重新定义一个vmodel，如果要使用组件内的数据，用‘data.组件名+条件’获取。</span><br><span class="line">        //如下面代码的 data.pagerId即获取组件当前的controller，data.pagerOptions为获取组件的参数，         即html中的$opts</span><br><span class="line">        //如果想要在新建的vmodels里面修改参数值只需要把该参数设为如下形式：</span><br><span class="line">        // var test = data.pagerOptions.test;</span><br><span class="line">        //这样子就可以在html(本文的html表示使用组件的环境)里面修改test值，但本文不建议这么做。</span><br><span class="line">        //建议将这一新建的vmodel设成一个黑盒，让用户无法修改里面的数据，以提高组件的复用性，如果想         要通过html修改分页的内容的话，下面会有介绍。</span><br><span class="line">        var model=avalon.define(data.pagerId,function (vm) &#123;</span><br><span class="line">            //将传过来的参数深拷贝(mix,用法见文档)</span><br><span class="line">            avalon.mix(vm,data.pagerOptions);</span><br><span class="line">            vm.currentPage=1;</span><br><span class="line">            vm.pageArr=[];</span><br><span class="line">            vm.showArr=[];</span><br><span class="line">            vm.lastDis=true;</span><br><span class="line">            vm.nextDis=false;</span><br><span class="line">            vm.firstDotShow=false;</span><br><span class="line">            vm.lastDotShow=false;</span><br><span class="line">            vm.getPages=function () &#123;</span><br><span class="line">                //使用range创建循环数组</span><br><span class="line">                model.pageArr=avalon.range(1,this.pageCount+1);</span><br><span class="line">                model.showPage();</span><br><span class="line">            &#125;;</span><br><span class="line">            vm.showPage=function () &#123;</span><br><span class="line">                var count=this.pageCount;</span><br><span class="line">                var current=model.currentPage;</span><br><span class="line">                //分页逻辑判断</span><br><span class="line">                if (count&lt;6)&#123;</span><br><span class="line">                    model.showArr=model.pageArr;</span><br><span class="line">                    model.firstDotShow=false;</span><br><span class="line">                    model.lastDotShow=false;</span><br><span class="line">                &#125;else if(current&lt;4)&#123;</span><br><span class="line">                    model.showArr=avalon.range(1,6);</span><br><span class="line">                    model.firstDotShow=false;</span><br><span class="line">                    model.lastDotShow=true;</span><br><span class="line">                &#125;else if(current&gt;count-3)&#123;</span><br><span class="line">                    model.showArr=avalon.range(count-4,count+1);</span><br><span class="line">                    model.firstDotShow=true;</span><br><span class="line">                    model.lastDotShow=false;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    model.showArr=avalon.range(current-2,current+3);</span><br><span class="line">                    model.firstDotShow=true;</span><br><span class="line">                    model.lastDotShow=true;</span><br><span class="line">                &#125;</span><br><span class="line">                //自定义回调</span><br><span class="line">                this.cb(current);</span><br><span class="line">            &#125;;</span><br><span class="line">            vm.lastPage=function () &#123;</span><br><span class="line">                if (model.currentPage&gt;1)&#123;</span><br><span class="line">                    model.currentPage--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            vm.nextPage=function () &#123;</span><br><span class="line">                if(model.currentPage&lt;model.pageCount)&#123;</span><br><span class="line">                    console.log(that)</span><br><span class="line">                    model.currentPage++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            vm.homePage=function () &#123;</span><br><span class="line">                model.currentPage=1;</span><br><span class="line">            &#125;;</span><br><span class="line">            vm.endPage=function () &#123;</span><br><span class="line">                model.currentPage=model.pageCount;</span><br><span class="line">            &#125;;</span><br><span class="line">            vm.goToModel=function (index) &#123;</span><br><span class="line">                model.currentPage=index;</span><br><span class="line">            &#125;</span><br><span class="line">            vm.$watch(&apos;currentPage&apos;,function () &#123;</span><br><span class="line">                //监听到当前页发生改变时，重新渲染页面</span><br><span class="line">                this.showPage();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">        model.$init=function() &#123;</span><br><span class="line">            //初始化</span><br><span class="line">            element.innerHTML = innerHTML;</span><br><span class="line">            model.getPages();</span><br><span class="line">            avalon.scan(element, [model].concat(vmodels));</span><br><span class="line">        &#125;;</span><br><span class="line">        return model;//必须返回avalon</span><br><span class="line">    &#125;</span><br><span class="line">    //在default里面可以设置实例化后自定义的数据</span><br><span class="line">    avalon.ui[&quot;pager&quot;].defaults = &#123;</span><br><span class="line">        pageCount:1</span><br><span class="line">        //里面定义的内容均可以在实例化后进行修改</span><br><span class="line">    &#125;;</span><br><span class="line">    return avalon ;  //必须返回avalon</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>从上面的代码可以得到，组件书写的大体思路如下：</p>
+<blockquote>
+<ol>
+<li>引入依赖avalon，然后，命名组件名为</li>
+</ol>
+</blockquote>
+<p>实例化方法如下:</p>
+<p>1.在页面中使用上述中的template作为分页内容。<br>2.js代码实例如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//还是利用avalon自带的amd加载器</span><br><span class="line"> require([&quot;pager&quot;], function () &#123;</span><br><span class="line">    var vm = avalon.define(&#123;</span><br><span class="line">        $id: &apos;page&apos;,</span><br><span class="line">        $opts: &#123;</span><br><span class="line">            pageCount: 1, </span><br><span class="line">            cb: avalon.noop</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    avalon.ready(function () &#123;</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                url: URL,</span><br><span class="line">                ...</span><br><span class="line">                success: function (res) &#123;</span><br><span class="line">                    vm.$opts.pageCount = res.pageCount;</span><br><span class="line">                    vm.$opts.cb = ...</span><br><span class="line">                    &#125;;</span><br><span class="line">                    avalon.scan()</span><br><span class="line">                &#125;,</span><br><span class="line">                error: function (xhr, status, err) &#123;</span><br><span class="line">                    console.log(err);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>目前掌握的avalon1.4版本的组件就是这么写的，应该还是存在诸多问题，希望知晓的大神能够不吝指出。周末愉快！</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/avalon/" rel="tag"># avalon</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/19/网页布局总结/" rel="next" title="网页布局总结">
+                <i class="fa fa-chevron-left"></i> 网页布局总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/29/项目总结/" rel="prev" title="项目总结">
+                项目总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Leo">
+          <p class="site-author-name" itemprop="name">Leo</p>
+           
+              <p class="site-description motion-element" itemprop="description">Know the loom. Be the stone.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#avalon分页组件-1-4-x版本"><span class="nav-number">1.</span> <span class="nav-text">avalon分页组件 (1.4.x版本)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "68c6e70861ba4f909cd7b95987795781",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

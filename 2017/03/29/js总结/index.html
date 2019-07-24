@@ -1,0 +1,810 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="javascript,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="JS总结(1)错误处理机制1.错误类型 SyntaxError 解析代码时发生的语法错误 ReferenceError 引用一个不存在的变量时发生的错误 RangeError 溢出错误 TypeError 变量或参数类型错误 URIError URI参数不正确 EvalError eval函数错误执行(ES5已经不再出现)2.throw语句中断程序执行，并抛出一个意外或错误3.try…catch1">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js总结">
+<meta property="og:url" content="http://www.wijayleo.cn/2017/03/29/js总结/index.html">
+<meta property="og:site_name" content="Leo">
+<meta property="og:description" content="JS总结(1)错误处理机制1.错误类型 SyntaxError 解析代码时发生的语法错误 ReferenceError 引用一个不存在的变量时发生的错误 RangeError 溢出错误 TypeError 变量或参数类型错误 URIError URI参数不正确 EvalError eval函数错误执行(ES5已经不再出现)2.throw语句中断程序执行，并抛出一个意外或错误3.try…catch1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-24T02:09:28.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js总结">
+<meta name="twitter:description" content="JS总结(1)错误处理机制1.错误类型 SyntaxError 解析代码时发生的语法错误 ReferenceError 引用一个不存在的变量时发生的错误 RangeError 溢出错误 TypeError 变量或参数类型错误 URIError URI参数不正确 EvalError eval函数错误执行(ES5已经不再出现)2.throw语句中断程序执行，并抛出一个意外或错误3.try…catch1">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wijayleo.cn/2017/03/29/js总结/">
+
+
+
+
+
+  <title> js总结 | Leo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0b67b3768c1d05a8c8511fbd79ffc5e3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Leo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.wijayleo.cn/2017/03/29/js总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                js总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T13:36:56+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/03/29/js总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JS总结-1"><a href="#JS总结-1" class="headerlink" title="JS总结(1)"></a>JS总结(1)</h1><h2 id="错误处理机制"><a href="#错误处理机制" class="headerlink" title="错误处理机制"></a>错误处理机制</h2><h3 id="1-错误类型"><a href="#1-错误类型" class="headerlink" title="1.错误类型"></a>1.错误类型</h3><ul>
+<li>SyntaxError 解析代码时发生的语法错误</li>
+<li>ReferenceError 引用一个不存在的变量时发生的错误</li>
+<li>RangeError 溢出错误</li>
+<li>TypeError 变量或参数类型错误</li>
+<li>URIError URI参数不正确</li>
+<li>EvalError eval函数错误执行(ES5已经不再出现)<h3 id="2-throw语句"><a href="#2-throw语句" class="headerlink" title="2.throw语句"></a>2.throw语句</h3>中断程序执行，并抛出一个意外或错误<h3 id="3-try…catch"><a href="#3-try…catch" class="headerlink" title="3.try…catch"></a>3.try…catch</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error'</span>);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>捕捉错误，并立即执行<code>catch</code>中的函数<br>同时，该结构后面可以加入<code>final</code>代码块来执行不管是否发生错误，都会执行的代码块</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>函数表示一段可以反复调用的代码块。</p>
+<h3 id="1-函数的声明"><a href="#1-函数的声明" class="headerlink" title="1.函数的声明"></a>1.函数的声明</h3><table>
+<thead>
+<tr>
+<th>声明方式</th>
+<th>具体方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>function命令</td>
+<td><figure class="highlight plain"><figcaption><span>func()&#123;&#125; ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">函数表达式 | ``` var test =function() &#123;&#125;</span><br></pre></td></tr></table></figure></td>
+</tr>
+</tbody>
+</table>
+<p>funcion构造函数 | <figure class="highlight plain"><figcaption><span>add</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.函数特性</span><br><span class="line"></span><br><span class="line">* 函数可以多次声明，但后面的声明会覆盖前面的声明</span><br></pre></td></tr></table></figure></p>
+<p> function s(){<br>     console.log(1);<br> }<br> function s(){<br>    console..log(2);<br> }</p>
+<p> s(); //2<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 可以把函数看成是一个可以执行的值，即函数与其他数据类型地位平等，所以在JavaScript语言中又称函数为第一等公民。</span><br><span class="line">* 函数可以调用自身，如下面代码，可以用来求出杨辉三角形在第a行第b个的值：</span><br><span class="line">```javascript</span><br><span class="line">   function  pascalTri(a,b)&#123;</span><br><span class="line">       if(a&gt;b)&#123;</span><br><span class="line">           if(a&gt;1)&#123;</span><br><span class="line">               if(b&gt;1)&#123;</span><br><span class="line">                  return pascalTri(a-1,b-1)+pascalTri(a-1,b); </span><br><span class="line">               &#125;else&#123;</span><br><span class="line">                   return 1;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;else&#123;</span><br><span class="line">              return 1;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;else&#123;</span><br><span class="line">           return 0;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   pascalTri(6,5) //5</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>函数名提升</strong>: 函数和变量名一样，在声明事会像变量声明一样，被提升到代码(外层函数)头部，但如果将函数视为变量值，则函数名没有提升到代码头部，需要事先声明，否则报错。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fn(); // text from fn</span><br><span class="line"></span><br><span class="line">function fn() &#123;</span><br><span class="line">    console.log(&apos;text from fn&apos;);</span><br><span class="line">    fnInner();</span><br><span class="line"></span><br><span class="line">    function fnInner() &#123;</span><br><span class="line">        console.log(&apos;text from fnInner&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fn1();// TypeError:fn1 is not a function</span><br><span class="line">var fn1 = function() &#123;</span><br><span class="line">    console.log(&apos;text from fn1&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-函数属性和方法"><a href="#3-函数属性和方法" class="headerlink" title="3.函数属性和方法"></a>3.函数属性和方法</h3><ul>
+<li><p><strong>属性</strong></p>
+<ul>
+<li><p>name:函数名  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function f1()&#123;&#125;</span><br><span class="line">console.log(f1.name) //f1</span><br><span class="line"></span><br><span class="line">var f2 =function()&#123;&#125;</span><br><span class="line">console.log(f2.name) //f2</span><br><span class="line"></span><br><span class="line">var f3 =function func3()&#123;&#125;</span><br><span class="line">console.log(f3.name) //f3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>length函数参数个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">function f1(a,b)&#123;&#125;</span><br><span class="line">console.log(f1.length) //2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>方法</strong></p>
+<ul>
+<li>toString() 返回函数源码,baokuo 注释<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function f1()&#123;</span><br><span class="line">    console.log(&apos;111&apos;)//打印111</span><br><span class="line">&#125;</span><br><span class="line">console.log(f1.toString());</span><br><span class="line">// function f1() &#123;</span><br><span class="line">//    console.log(&apos;111&apos;)//打印111</span><br><span class="line">//  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-函数作用域"><a href="#4-函数作用域" class="headerlink" title="4.函数作用域"></a>4.函数作用域</h3><ul>
+<li>函数中存在两种作用域:1.全局作用域，2.函数作用域</li>
+<li>函数内部也存在变量提升，即声明的变量和内部函数都会被提升到函数体的头部</li>
+<li>函数的作用域与声明的作用域有关，与运行时所在的作用域无关，如下面代码就是错误的：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var x= function()&#123;</span><br><span class="line">    console.log(a);</span><br><span class="line">&#125;</span><br><span class="line">var y =function()&#123;</span><br><span class="line">    var a=1;</span><br><span class="line">    x();</span><br><span class="line">&#125; </span><br><span class="line">y(); //ReferenceError:a is not defined</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="5-参数"><a href="#5-参数" class="headerlink" title="5.参数"></a>5.参数</h3><ul>
+<li><p>参数可以省略,但是无法只省略靠前的参数，而保留靠后的参数，如果一定要这样做的话，只能显示地给前面的参数传入<code>undefined</code>，如果存在同名参数，则取最后出现的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function f2(a,b)&#123;</span><br><span class="line">    console.log(a);</span><br><span class="line">    console.log(b);</span><br><span class="line">&#125;</span><br><span class="line">f2(,5); //SyntaxError: Unexpected token ,</span><br><span class="line">f2(undefined,5); // undeifned 5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>闭包</strong> ：函数外部无法读取函数内部的变量，闭包可以用来实现函数内部和外部的连接，同时，闭包的诞生环境一直存在，所以这些变量一直保存在内存中。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> n = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> ff = f1();</span><br><span class="line">ff(); <span class="comment">//1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 闭包的诞生环境一直存在</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f4</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(++a);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> inc = f4(<span class="number">5</span>);</span><br><span class="line">inc(); <span class="comment">//6</span></span><br><span class="line">inc(); <span class="comment">//7</span></span><br><span class="line">inc(); <span class="comment">//8</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>立即调用函数(IIFE) :立即调用函数，需要加圆括号避免错误(<code>function</code>既可以当作语句，也可以当作表达式，为了避免歧义，出现在行首时一律解释成语句，所以需要让<code>function</code>不出现在行首，让其解释为表达式)，表达式主要有一下两种:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;&#125;());</span><br><span class="line">//这两种写法最后的分号必须加上，以避免两个连着的iife赢法错误</span><br><span class="line">(function()&#123;&#125;)();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><p> 对象是JavaScript的核心概念，也是最重要的数据类型，是一种无序的数据集合，由若干键值对构成。键名又可以成为属性，属性的值如果是函数，则成为方法</p>
+<h4 id="1-1生成方法"><a href="#1-1生成方法" class="headerlink" title="1.1生成方法"></a>1.1生成方法</h4><ul>
+<li>直接使用大括号<code>{}</code>生成</li>
+<li>使用<code>new</code>命令生成一个object对象实例</li>
+<li>使用<code>Object.create</code>生成</li>
+</ul>
+<p>对象的引用：对象引用了对象的内存地址，修改其中一个变量会影响到其他变量(对于原始数据类型则是传值引用，也就是值的拷贝，一个变量的变化不会影响其他变量的值)<br>为了避免歧义，规定如果行首是<code>{</code>则解释为语句，如果要表达为对象可以加圆括号  </p>
+<h3 id="2-属性"><a href="#2-属性" class="headerlink" title="2.属性"></a>2.属性</h3><ul>
+<li>属性的读取与赋值：<ul>
+<li>点运算符</li>
+<li>中括号运算符</li>
+</ul>
+</li>
+<li>查看对象的所有属性: <code>Object.keys(obj)</code></li>
+<li><code>delete</code>命令，用来删除对象的属性,只能删除本身的属性，无法删除继承的属性，同时无法删除<code>Object.defineProperty</code>创建的属性</li>
+<li><code>for..in</code>用于遍历对象所有可遍历的属性，跳过不可遍历属性，不仅遍历对象自身的属性，还遍历继承的属性。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Person(name) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.describe = function() &#123;</span><br><span class="line">    return &apos;name:&apos; + this.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person = new Person(&apos;leo&apos;);</span><br><span class="line"></span><br><span class="line">for (var i in person) &#123;</span><br><span class="line">    console.log(i);</span><br><span class="line">&#125;</span><br><span class="line">// name</span><br><span class="line">// 继承的属性describe也会被遍历到</span><br><span class="line">// 如果只想遍历自身的属性，可以使用hasOwnProperty</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="其他（tips）"><a href="#其他（tips）" class="headerlink" title="其他（tips）"></a>其他（tips）</h2><ul>
+<li>避免全局变量，如果不得不使用，用大写字母表示变量名，如 <code>UPPER_CASE</code></li>
+<li>函数都在使用之前定义，变量的声明放在函数头部</li>
+<li>不要使用“相等”（==）运算符，只使用“严格相等”（===）运算符。</li>
+<li><code>++</code>,<code>--</code>使用<code>+=</code>,<code>-=</code>代替</li>
+<li>避免使用<code>switch...case</code>结构，而使用对象结果替代。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function doAction(action) &#123;</span><br><span class="line">  switch (action) &#123;</span><br><span class="line">    case &apos;hack&apos;:</span><br><span class="line">      return &apos;hack&apos;;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;slash&apos;:</span><br><span class="line">      return &apos;slash&apos;;</span><br><span class="line">      break;</span><br><span class="line">    case &apos;run&apos;:</span><br><span class="line">      return &apos;run&apos;;</span><br><span class="line">      break;</span><br><span class="line">    default:</span><br><span class="line">      throw new Error(&apos;Invalid action.&apos;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面代码替换为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function doAction(action) &#123;</span><br><span class="line">  var actions = &#123;</span><br><span class="line">    &apos;hack&apos;: function () &#123;</span><br><span class="line">      return &apos;hack&apos;;</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;slash&apos;: function () &#123;</span><br><span class="line">      return &apos;slash&apos;;</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;run&apos;: function () &#123;</span><br><span class="line">      return &apos;run&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  if (typeof actions[action] !== &apos;function&apos;) &#123;</span><br><span class="line">    throw new Error(&apos;Invalid action.&apos;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return actions[action]();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/29/项目总结/" rel="next" title="项目总结">
+                <i class="fa fa-chevron-left"></i> 项目总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/29/js杂项/" rel="prev" title="js杂项">
+                js杂项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/logo.jpg" alt="Leo">
+          <p class="site-author-name" itemprop="name">Leo</p>
+           
+              <p class="site-description motion-element" itemprop="description">Know the loom. Be the stone.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JS总结-1"><span class="nav-number">1.</span> <span class="nav-text">JS总结(1)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理机制"><span class="nav-number">1.1.</span> <span class="nav-text">错误处理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-错误类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.错误类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-throw语句"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.throw语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-try…catch"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.try…catch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">1.2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-函数的声明"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.函数的声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-函数属性和方法"><span class="nav-number">1.2.2.</span> <span class="nav-text">3.函数属性和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-函数作用域"><span class="nav-number">1.2.3.</span> <span class="nav-text">4.函数作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-参数"><span class="nav-number">1.2.4.</span> <span class="nav-text">5.参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象"><span class="nav-number">1.3.</span> <span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1生成方法"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1.1生成方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-属性"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他（tips）"><span class="nav-number">1.4.</span> <span class="nav-text">其他（tips）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "68c6e70861ba4f909cd7b95987795781",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
